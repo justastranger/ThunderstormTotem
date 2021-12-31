@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "tVjCxZn19XN7MNAgIicwLhdIVHtljMo7MsjmINvwoUleQO8MExLyhJbiJP3GCNXNCgDSBaFciirNLWserv7laA==",
+  "success": true,
+  "projectFilePath": "F:\\build\\Stardew Valley Modding\\ThunderstormTotem\\ThunderstormTotem\\ThunderstormTotem.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\justa\\.nuget\\packages\\pathoschild.stardew.modbuildconfig\\3.3.0\\pathoschild.stardew.modbuildconfig.3.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
