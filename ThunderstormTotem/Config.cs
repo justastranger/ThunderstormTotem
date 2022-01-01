@@ -4,11 +4,11 @@ namespace ThunderstormTotem
 {
     class Config
     {
-        public SButton debugKey { get; set; }
+        public bool Debug { get; set; }
 
         public Config()
         {
-            debugKey = SButton.J;
+            Debug = false;
         }
     }
 }
