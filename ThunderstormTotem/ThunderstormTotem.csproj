@@ -4,7 +4,7 @@
     <AssemblyName>ThunderstormTotem</AssemblyName>
     <RootNamespace>ThunderstormTotem</RootNamespace>
     <Version>1.0.0</Version>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Platforms>x86;x64;AnyCPU</Platforms>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <EnableHarmony>true</EnableHarmony>
@@ -12,74 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\Lib\0Harmony.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="BmFont">
-      <HintPath>..\Lib\BmFont.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\Lib\Lidgren.Network.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\Lib\Mono.Cecil.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="MoonSharp.Interpreter">
-      <HintPath>..\Lib\MoonSharp.Interpreter.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="NCalc">
-      <HintPath>..\Lib\NCalc.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Netcode">
-      <HintPath>..\Lib\Netcode.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="PyTK">
-      <HintPath>..\Lib\PyTK.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="SMAPI.Toolkit">
-      <HintPath>..\Lib\SMAPI.Toolkit.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="SMAPI.Toolkit.CoreInterfaces">
-      <HintPath>..\Lib\SMAPI.Toolkit.CoreInterfaces.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Stardew Valley">
-      <HintPath>..\Lib\Stardew Valley.exe</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="StardewModdingAPI">
-      <HintPath>..\Lib\StardewModdingAPI.exe</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="StardewValley.GameData">
-      <HintPath>..\Lib\StardewValley.GameData.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="TMXTile">
-      <HintPath>..\Lib\TMXTile.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="xTile">
-      <HintPath>..\Lib\xTile.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
