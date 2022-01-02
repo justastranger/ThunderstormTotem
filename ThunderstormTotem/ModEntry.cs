@@ -4,27 +4,25 @@ using HarmonyLib;
 using StardewModdingAPI.Events;
 using StardewValley.Menus;
 using System.Collections.Generic;
+using RadioactiveGeodes;
 
 namespace ThunderstormTotem
 {
     public class ModEntry : Mod
     {
-        public static bool AlreadyRaining = false;
-        public static ITranslationHelper I18N;
-        public static IMonitor Logger;
-        public static IModHelper ModHelper;
-        internal Config config;
-        public static bool debugMode;
+        internal static bool AlreadyRaining = false;
+        internal static ITranslationHelper I18N;
+        internal static IMonitor Logger;
+        internal static Config config;
         internal Harmony Harmony = new("jas.ThunderstormTotem");
 
         public override void Entry(IModHelper helper)
         {
             I18N = helper.Translation;
             Logger = Monitor;
-            ModHelper = helper;
             Helper.Events.Display.MenuChanged += OnMenuChanged;
-            config = helper.ReadConfig<Config>();
-            debugMode = config.Debug;
+            helper.Events.GameLoop.GameLaunched += onLaunched;
+            // config = helper.ReadConfig<Config>();
             Harmony.Patch(
                 original: AccessTools.Method(typeof(Object), "rainTotem"),
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(RainTotemPatch), "RainTotemPrefix"))
@@ -45,11 +43,11 @@ namespace ThunderstormTotem
                         box.dialogues.Count > 0 &&
                         box.dialogues[0] == Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12822"))
                     {
-                        if (debugMode) Logger.Log("Rain Totem DialogueBox detected.", LogLevel.Info);
+                        if (config.Debug) Logger.Log("Rain Totem DialogueBox detected.", LogLevel.Info);
                         // code below only runs if it's the Rain Totem DialogueBox and AlreadyRaining is flagged as true
                         // AlreadyRaining is updated each time the Rain Totem is used, before it's actually used
                         if (AlreadyRaining) {
-                            if (debugMode) Logger.Log("Stormy Weather Conjured.", LogLevel.Info);
+                            if (config.Debug) Logger.Log("Stormy Weather Conjured.", LogLevel.Info);
                             box.dialogues.Clear();
                             box.dialogues.Add(I18N.Get("ThunderstormTotem.RainToThunder"));
                             Game1.netWorldState.Value.WeatherForTomorrow = Game1.weatherForTomorrow = Game1.weather_lightning;
@@ -59,6 +57,21 @@ namespace ThunderstormTotem
                 }
             }
         }
+
+        private void onLaunched(object sender, GameLaunchedEventArgs e)
+        {
+            config = Helper.ReadConfig<Config>();
+            if (Helper.ModRegistry.IsLoaded("spacechase0.GenericModConfigMenu"))
+            {
+                var api = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+
+                api.RegisterModConfig(ModManifest, () => config = new Config(), () => Helper.WriteConfig(config));
+                api.SetDefaultIngameOptinValue(ModManifest, true);
+                api.RegisterSimpleOption(ModManifest, "Debug Mode", "Enabled extra logging information.", () => config.Debug, (bool val) => config.Debug = val);
+            }
+
+        }
+
     }
 
     [HarmonyPatch(typeof(Object), "rainTotem")]
@@ -67,23 +80,23 @@ namespace ThunderstormTotem
 
         private static bool RainTotemPrefix(Item __instance, Farmer who)
         {
-            if (ModEntry.debugMode) ModEntry.Logger.Log("RainTotemPrefix executed.", LogLevel.Info);
+            if (ModEntry.config.Debug) ModEntry.Logger.Log("RainTotemPrefix executed.", LogLevel.Info);
             var weather = Game1.netWorldState.Value.GetWeatherForLocation(Game1.currentLocation.GetLocationContext()).weatherForTomorrow.Value;
 
             // If tomorrow is a festival day or if the weather for tomorrow is not going to be rain, set AlreadyRaining to false
             if (Utility.isFestivalDay(Game1.dayOfMonth + 1, Game1.currentSeason))
             {
-                if (ModEntry.debugMode) ModEntry.Logger.Log("Festival Tomorrow, no rain", LogLevel.Info);
+                if (ModEntry.config.Debug) ModEntry.Logger.Log("Festival Tomorrow, no rain", LogLevel.Info);
                 ModEntry.AlreadyRaining = false;
             }
             else if (weather == Game1.weather_rain || weather == Game1.weather_lightning)
             {
-                if (ModEntry.debugMode) ModEntry.Logger.Log((weather == Game1.weather_rain ? "Rain" : "Storm") + " detected, enabling AlreadyRaining flag", LogLevel.Info);
+                if (ModEntry.config.Debug) ModEntry.Logger.Log((weather == Game1.weather_rain ? "Rain" : "Storm") + " detected, enabling AlreadyRaining flag", LogLevel.Info);
                 ModEntry.AlreadyRaining = true;
             }
             else if (weather != Game1.weather_rain)
             {
-                if (ModEntry.debugMode) ModEntry.Logger.Log("No rain tomorrow, weather detected as: " + weather.ToString(), LogLevel.Info);
+                if (ModEntry.config.Debug) ModEntry.Logger.Log("No rain tomorrow, weather detected as: " + weather.ToString(), LogLevel.Info);
                 ModEntry.AlreadyRaining = false;
             }
             else
