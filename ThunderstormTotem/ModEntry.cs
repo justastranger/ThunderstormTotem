@@ -78,7 +78,7 @@ namespace ThunderstormTotem
     public class RainTotemPatch
     {
 
-        private static bool RainTotemPrefix(Item __instance, Farmer who)
+        private static void RainTotemPrefix(Farmer who)
         {
             if (ModEntry.config.Debug) ModEntry.Logger.Log("RainTotemPrefix executed.", LogLevel.Info);
             var weather = Game1.netWorldState.Value.GetWeatherForLocation(Game1.currentLocation.GetLocationContext()).weatherForTomorrow.Value;
@@ -103,7 +103,6 @@ namespace ThunderstormTotem
             {
                 ModEntry.Logger.Log("Something's wrong with the weather! Weather is: " + weather.ToString(), LogLevel.Error);
             }
-            return true;
         }
     }
 }
