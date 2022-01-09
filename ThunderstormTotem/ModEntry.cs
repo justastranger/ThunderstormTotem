@@ -3,8 +3,6 @@ using StardewModdingAPI;
 using HarmonyLib;
 using StardewModdingAPI.Events;
 using StardewValley.Menus;
-using System.Collections.Generic;
-using RadioactiveGeodes;
 
 namespace ThunderstormTotem
 {
@@ -65,9 +63,8 @@ namespace ThunderstormTotem
             {
                 var api = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
 
-                api.RegisterModConfig(ModManifest, () => config = new Config(), () => Helper.WriteConfig(config));
-                api.SetDefaultIngameOptinValue(ModManifest, true);
-                api.RegisterSimpleOption(ModManifest, "Debug Mode", "Enabled extra logging information.", () => config.Debug, (bool val) => config.Debug = val);
+                api.Register(ModManifest, () => config = new Config(), () => Helper.WriteConfig(config), false);
+                api.AddBoolOption(ModManifest, () => config.Debug, (bool val) => config.Debug = val, () => I18N.Get("ThunderstormTotem.config.debug.name"), () => I18N.Get("ThunderstormTotem.config.debug.description"));
             }
 
         }
